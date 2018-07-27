@@ -1,39 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-	<meta charset="utf-8"> 
-	<title>展示所有已上传的文件</title>
-	<link rel="stylesheet" href="../plug/bootstrap/css/bootstrap.min.css">  
-	<script src="../plug/jquery/jquery-3.3.1.min.js"></script>
-	<script src="../plug/bootstrap/js/bootstrap.min.js"></script>
-</head>
-<body>
-<table class="table table-hover table-bordered table-striped">
-	<thead>
-		<tr>
-			<th>名称</th>
-			<th>城市</th>
-			<th>邮编</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Tanmay</td>
-			<td>Bangalore</td>
-			<td>560001</td>
-		</tr>
-		<tr>
-			<td>Sachin</td>
-			<td>Mumbai</td>
-			<td>400003</td>
-		</tr>
-		<tr>
-			<td>Uma</td>
-			<td>Pune</td>
-			<td>411027</td>
-		</tr>
-	</tbody>
-</table>
-
+    <meta charset="UTF-8"/>
+ 
+<!--添加相关样式引用-->
+<link href="../plug/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="../plug/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+ </head>
+ <body>
+<div class="container body-content" style="padding-top:20px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">查询条件</div>
+        <div class="panel-body">
+            <form class="form-inline">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="control-label">文件名称：</label>
+                        <input id="fileName" type="text" class="form-control">
+                        <input class="btn btn-primary" type="button" value="查询" onclick="SearchData()">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <table id="table"></table>
+</div>
 </body>
+<!--添加相关脚本引用-->
+<script src="../plug/jquery/jquery-3.3.1.min.js"></script>
+<script src="../plug/bootstrap/js/bootstrap.min.js"></script>
+<script src="../plug/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../plug/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#table').bootstrapTable({
+            url: '/file/list',
+            queryParamsType: '',              //默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort
+            queryParams: queryParams,
+            method: "get",
+            pagination: true,
+            pageNumber: 1,
+            pageSize: 10,
+            pageList: [10, 20, 50, 100],
+            sidePagination: "server",         //分页方式：client客户端分页，server服务端分页（*）
+            striped: true,                    //是否显示行间隔色
+            cache: false,
+            uniqueId: "BookId",               //每一行的唯一标识，一般为主键列
+            height:450,
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            columns: [
+                { checkbox: true },
+                { title: '序号', width: 50, align: "center", formatter: function (value, row, index) { return index + 1; } },
+                { title: '文件名', align: "center", field: 'fileName' },
+                { title: '文件上传时间', align: "center", field: 'uploadDate' },
+                {
+                    title: '操作', align: "center", field: 'BookId', formatter: function (value, row, index) {
+                        var html = '<a href="pdf-view.html?file=../../upload-files/'+row.fileName+'" target="_blank">查看</a>';
+                        return html;
+                    }
+                }
+            ]
+        });
+    });
+ 
+    //查询条件
+    function queryParams(params) {
+        return { 
+        	limit: params.pageSize, //页面大小
+        	offset: params.pageNumber, //页码
+        	fileName:$.trim($("#fileName").val())
+        };
+    }
+ 
+    //查询事件
+    function SearchData() {
+        $('#table').bootstrapTable('refresh', { pageNumber: 1 });
+    }
+ 
+</script>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" >
 <head>
     <meta charset="UTF-8"/>
     <title>文件上传</title>
@@ -16,9 +16,9 @@
     <script src="js/popper.min.js" type="text/javascript"></script>
     <script src="../plug/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 </head>
-<body>
-<div class="container kv-main">
-    <form enctype="multipart/form-data" method="post">
+<body >
+<div class="container kv-main" >
+    <form enctype="multipart/form-data" method="post" >
         <div class="file-loading">
             <input id="uploadfile" type="file" name="file" multiple>
         </div>
@@ -31,14 +31,13 @@
             'theme': 'explorer-fa',
             'uploadUrl': '/file/upload',
             'language': 'zh',
-            'allowedFileExtensions' : [ 'xls', 'xlsx','doc', 'docx'],
+            'allowedFileExtensions' : [ 'xls', 'xlsx','doc', 'docx','pdf'],
             'showClose' : false,
            	'showRemove': false,
            	fileActionSettings : {
            		showRemove: false
            	}
         }).on("filepreupload", function (event, data, previewId, index){
-			//console.log(data);
         });
          
     });

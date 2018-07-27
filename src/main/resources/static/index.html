@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh" style="margin: 0 auto;padding: 0;height: 100%; overflow: hidden;" >
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>文件上传和PDF展示功能示例</title>
+<script type="text/javascript" src="view/plug/jquery/jquery-3.3.1.min.js"></script>
+<link href="view/plug/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="view/plug/bootstrap/js/bootstrap.min.js"></script>
 </head>
-<body>
-	<a href="web/viewer.html?file=../pdf_file/compressed.tracemonkey-pldi-09.pdf" target="view_window">系统操作指南</a>
+<body style="margin: 0 auto; padding: 0; height: 100%;">
+	<ul class="nav nav-tabs">
+  		<li><a href="#fileUpload" data-toggle="tab">文件上传</a></li>
+  		<li><a href="#fileView" data-toggle="tab">文件查看</a></li>
+	</ul>
+	<div id="myTabContent" class="tab-content" style="height: 100%; width: 100%">
+	<div class="tab-pane fade in active" id="fileUpload" style="height: 100%; width: 100%">
+		<iframe src="view/file-upload/index.html" style="height: 100%; width: 100%"></iframe>
+	</div>
+	<div class="tab-pane fade" id="fileView" style="height: 100%; width: 100%">
+		<iframe src="view/files-view/index.html" style="height: 100%; width: 100%"></iframe>
+	</div>
+</div>
 </body>
 </html>

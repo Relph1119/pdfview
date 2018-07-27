@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8"/>
- 
+ 	<title>文件展示</title>
 <!--添加相关样式引用-->
 <link href="../plug/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../plug/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
@@ -34,6 +34,9 @@
 <script src="../plug/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+    	$(window).resize(function(){
+            location.reload();
+        });
         $('#table').bootstrapTable({
             url: '/file/list',
             queryParamsType: '',              //默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort
@@ -47,7 +50,7 @@
             striped: true,                    //是否显示行间隔色
             cache: false,
             uniqueId: "BookId",               //每一行的唯一标识，一般为主键列
-            height:450,
+            height:400,
             paginationPreText: "上一页",
             paginationNextText: "下一页",
             columns: [

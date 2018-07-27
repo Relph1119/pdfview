@@ -33,10 +33,10 @@ public class FileOpsController {
 	private final String BASEPATH = FileOpsController.class.getResource("/").getPath();
 	
     /**
-     * 上传文件
+     * 上传文件，目前文件上传的存放路径在resources/static/upload-files
      * @param request
      * @param response
-     * @param file 上传的文件，支持多文件
+     * @param file 上传的文件
      * @throws Exception
      */
     @RequestMapping("/upload")
@@ -52,7 +52,9 @@ public class FileOpsController {
             	file.transferTo(new File(directory.getPath() + File.separator +file.getOriginalFilename()));
             	
             	//convert to pdf
-            	convert2pdf(file.getOriginalFilename(), directory.getPath(), directory.getPath());
+            	if (!file.getOriginalFilename().endsWith(".pdf")) {
+            		convert2pdf(file.getOriginalFilename(), directory.getPath(), directory.getPath());
+            	}
             	
             } catch (Exception e) {
                 logger.info("You failed to upload => " + e.getMessage());
@@ -66,7 +68,16 @@ public class FileOpsController {
         return "{}";
     }
     
-   
+   /**
+    * 文件展示
+    * @param request
+    * @param response
+    * @param limit 分页数（每页X条数据）
+    * @param offset 页数（第X页）
+    * @param fileName 要查询的文件名
+    * @return
+    * @throws Exception
+    */
     @RequestMapping("/list")
     public @ResponseBody JSONObject getFilesList(HttpServletRequest request,
     			HttpServletResponse response, 
@@ -80,12 +91,18 @@ public class FileOpsController {
     	if (directory.isDirectory() && directory.listFiles().length>0) {
     		File[] files = directory.listFiles();
     		for (File file : files) {
-    			if(file.getName().lastIndexOf(".pdf") > 0) {
-    				HashMap<String, Object> map = new HashMap<String, Object>();
-        			map.put("fileName", file.getName());
-        			String fileUploadDate = sdf.format(new Date(file.lastModified()));   // 时间戳转换成时间
-        			map.put("uploadDate", fileUploadDate);
-        			fileList.add(map);
+    			HashMap<String, Object> map = new HashMap<String, Object>();
+    			map.put("fileName", file.getName());
+    			String fileUploadDate = sdf.format(new Date(file.lastModified()));   // 时间戳转换成时间
+    			map.put("uploadDate", fileUploadDate);
+    			if(file.getName().lastIndexOf(".pdf") > 0 ) {
+    				if (!fileName.trim().isEmpty() ) {
+    					if(file.getName().indexOf(fileName) > -1) {
+    						fileList.add(map);
+    					}
+    				}else {
+    					fileList.add(map);
+    				}
     			}
     		}
     	}

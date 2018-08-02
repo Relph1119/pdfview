@@ -121,10 +121,10 @@ public class FileOpsController {
     }
     
     private void convert2pdf(String fileName, String sourceDir, String targetDir) throws OfficeException {
-    	String fileNameWithSuffix = fileName.substring(0, fileName.lastIndexOf('.'));
+    	String fileNameWithoutSuffix = fileName.substring(0, fileName.lastIndexOf('.'));
 		
 		String sourceFilePath = sourceDir + File.separator + fileName;
-		String targetFilePath = targetDir + File.separator + fileNameWithSuffix + ".pdf";
+		String targetFilePath = targetDir + File.separator + fileNameWithoutSuffix + ".pdf";
 		
 		File sourceFile = new File(sourceFilePath);
 		File targetFile = new File(targetFilePath);
